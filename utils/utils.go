@@ -12,6 +12,14 @@ func MapSlice[I any, O any](input []I, mapFunc func(I) (O, error)) []O {
 	return newSlice
 }
 
+func MapSliceNoErr[I any, O any](input []I, mapFunc func(I) O) []O {
+	newSlice := make([]O, len(input))
+	for i, value := range input {
+		newSlice[i] = mapFunc(value)
+	}
+	return newSlice
+}
+
 func MaxIntSlice(values []int) (int, int) {
 	if len(values) == 0 {
 		panic("no elements when attempting to find max")
