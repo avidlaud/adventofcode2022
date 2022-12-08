@@ -42,3 +42,33 @@ func SumSlice(values []int) int {
 	}
 	return sum
 }
+
+type Stack[T comparable] struct {
+	Vals []T
+}
+
+func (s *Stack[T]) Push(item T) {
+	s.Vals = append(s.Vals, item)
+}
+
+func (s *Stack[T]) Pop() (T, bool) {
+	if s.IsEmpty() {
+		var nullItem T
+		return nullItem, false
+	}
+	top := s.Vals[len(s.Vals)-1]
+	s.Vals = s.Vals[:len(s.Vals)-1]
+	return top, true
+}
+
+func (s *Stack[T]) IsEmpty() bool {
+	return len(s.Vals) == 0
+}
+
+func (s *Stack[T]) Peek() (T, bool) {
+	if s.IsEmpty() {
+		var nullItem T
+		return nullItem, false
+	}
+	return s.Vals[len(s.Vals)-1], true
+}
