@@ -72,3 +72,10 @@ func (s *Stack[T]) Peek() (T, bool) {
 	}
 	return s.Vals[len(s.Vals)-1], true
 }
+
+func Max(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
+}
