@@ -79,3 +79,20 @@ func Max(a, b int) int {
 	}
 	return b
 }
+
+func Abs(x int) int {
+	if x < 0 {
+		return -x
+	}
+	return x
+}
+
+func Sign(x int) int {
+	if x < 0 {
+		return -1
+	}
+	if x == 0 {
+		return 0
+	}
+	return 1
+}
