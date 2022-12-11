@@ -1,5 +1,7 @@
 package utils
 
+import "errors"
+
 func MapSlice[I any, O any](input []I, mapFunc func(I) (O, error)) []O {
 	newSlice := make([]O, len(input))
 	for i, value := range input {
@@ -95,4 +97,32 @@ func Sign(x int) int {
 		return 0
 	}
 	return 1
+}
+
+type Queue struct {
+	channel chan int
+}
+
+func NewQueue(capacity int) *Queue {
+	return &Queue{
+		channel: make(chan int, capacity),
+	}
+}
+
+func (q *Queue) Enqueue(val int) error {
+	select {
+	case q.channel <- val:
+		return nil
+	default:
+		return errors.New("Queue full")
+	}
+}
+
+func (q *Queue) Dequeue() (int, bool) {
+	select {
+	case val := <-q.channel:
+		return val, true
+	default:
+		return 0, false
+	}
 }
