@@ -13,7 +13,7 @@ import (
 var input string
 
 type monkey struct {
-	Items          utils.Queue
+	Items          utils.Queue[int]
 	Operation      func(int) int
 	Test           func(int) int
 	ModNum         int
@@ -88,7 +88,7 @@ func parseMonkey(s string) monkey {
 	opFunc := parseOperation(lines[2])
 	testFunc, modVal := parseTest(lines[3:6])
 	m := monkey{
-		*utils.NewQueue(1000),
+		*utils.NewQueue[int](1000),
 		opFunc,
 		testFunc,
 		modVal,

@@ -82,6 +82,13 @@ func Max(a, b int) int {
 	return b
 }
 
+func Min(a, b int) int {
+	if a < b {
+		return a
+	}
+	return b
+}
+
 func Abs(x int) int {
 	if x < 0 {
 		return -x
@@ -99,17 +106,17 @@ func Sign(x int) int {
 	return 1
 }
 
-type Queue struct {
-	channel chan int
+type Queue[T any] struct {
+	channel chan T
 }
 
-func NewQueue(capacity int) *Queue {
-	return &Queue{
-		channel: make(chan int, capacity),
+func NewQueue[T any](capacity int) *Queue[T] {
+	return &Queue[T]{
+		channel: make(chan T, capacity),
 	}
 }
 
-func (q *Queue) Enqueue(val int) error {
+func (q *Queue[T]) Enqueue(val T) error {
 	select {
 	case q.channel <- val:
 		return nil
@@ -118,11 +125,22 @@ func (q *Queue) Enqueue(val int) error {
 	}
 }
 
-func (q *Queue) Dequeue() (int, bool) {
+func (q *Queue[T]) Dequeue() (T, bool) {
 	select {
 	case val := <-q.channel:
 		return val, true
 	default:
-		return 0, false
+		var nilItem T
+		return nilItem, false
+	}
+}
+
+func (q *Queue[T]) Deq() T {
+	select {
+	case val := <-q.channel:
+		return val
+	default:
+		var nilItem T
+		return nilItem
 	}
 }
